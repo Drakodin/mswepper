@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from '../tile/Tile';
 import { getMineBoard, getRadarBoard, zeros } from '../../board/board-generator';
-import { checkState, flagTile, propagate } from '../../board/board-mechanic';
+import { checkState, flagTile, getProps, propagate } from '../../board/board-mechanic';
 import './board.css';
 
 interface BoardProps {
@@ -14,6 +14,7 @@ interface BoardProps {
 interface BoardState {
     tiles: JSX.Element[][],
     loaded: boolean
+    revealed: boolean
 }
 
 export default class Board extends React.Component<BoardProps, BoardState> {
@@ -23,9 +24,11 @@ export default class Board extends React.Component<BoardProps, BoardState> {
         this.state = {
             tiles: [],
             loaded: false,
+            revealed: (props.revealed) ? props.revealed : false
         }
         this.generateBoard = this.generateBoard.bind(this)
         this.click = this.click.bind(this)
+        this.lostGame = this.lostGame.bind(this)
     }
 
     componentDidMount() {
@@ -63,8 +66,20 @@ export default class Board extends React.Component<BoardProps, BoardState> {
         this.setState({tiles: tileBoard, loaded: true}) 
     }
 
+    lostGame() {
+        for (let i = 0; i < this.tileRefs.length; i++) {
+            for (let j = 0; j < this.tileRefs[0].length; j++) {
+                this.tileRefs[i][j].show()
+            }
+        }
+    }
+
     async click(e: any) {
         e.preventDefault();
+        if (this.state.revealed) {
+            return;
+        }
+
         if (e.button === 0) {
             let tileState = checkState(this.tileRefs, {id: e.target.id})
             if (tileState.flagged) {
@@ -77,6 +92,12 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                 propagate(this.tileRefs, {id: e.target.id})
             } else {
                 propagate(this.tileRefs, {id: e.target.id})
+            }
+            let props = getProps(this.tileRefs, {id: e.target.id})
+            if (props.value === 9) {
+                this.setState({revealed: true}, () => {
+                    this.lostGame()
+                })
             }
         }
         if (e.button === 2) {

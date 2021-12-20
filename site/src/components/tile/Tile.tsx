@@ -35,15 +35,6 @@ export default class Tile extends React.Component<TileProps, TileState> {
     }
 
     show() {
-        let val = document.getElementById(`${this.props.id}_value`)
-        if (val) {
-            val.style.visibility = 'visible'
-        }
-
-        let wrapper = document.getElementById(this.props.id)
-        if (wrapper) {
-            wrapper.style.backgroundColor = (this.props.value === 9) ? 'darkred' : 'rgb(255, 245, 213)'
-        }
         this.setState({hidden: false})
     }
 
@@ -66,7 +57,7 @@ export default class Tile extends React.Component<TileProps, TileState> {
                 id={this.props.id}
                 className='tile tile-wrapper'
                 style={{
-                    backgroundColor: 'blue',
+                    backgroundColor: (this.state.hidden) ? 'blue' : (this.props.value === 9) ? 'darkred' : 'rgb(255, 245, 213)',
                     width: '20px',
                     height: '20px'
                 }}
@@ -80,7 +71,7 @@ export default class Tile extends React.Component<TileProps, TileState> {
                     id={`${this.props.id}_value`}
                     className='tile tile-value'
                     style={{
-                        visibility: 'hidden',
+                        visibility: (this.state.hidden) ? 'hidden' : 'visible',
                         color: getTextColor(this.props.value),
                     }}
                 >

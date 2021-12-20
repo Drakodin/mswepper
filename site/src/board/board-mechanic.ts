@@ -10,9 +10,13 @@ const checkValid = (index: number[], min: number, max: number) => {
     return true;
 }
 
+const getPos = (params: {id: string}) => {
+    return params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
+}
+
 export const propagate = (refMap: any[][], params: {id: string}): void => {
     // Identifies cell [r, c] tuple position in grid
-    let cellPos = params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
+    let cellPos = getPos({id: params.id})
 
     bfsQ.push(cellPos)
 
@@ -50,7 +54,7 @@ export const propagate = (refMap: any[][], params: {id: string}): void => {
 }
 
 export const checkState = (refs: any[][], params: {id: string}): TileState => {
-    let cellPos = params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
+    let cellPos = getPos({id: params.id})
     let cellR = cellPos[0]
     let cellC = cellPos[1]
 
@@ -58,9 +62,14 @@ export const checkState = (refs: any[][], params: {id: string}): TileState => {
 }
 
 export const flagTile = (refs: any[][], params: {id: string}) => {
-    let cellPos = params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
+    let cellPos = getPos({id: params.id})
     let cellR = cellPos[0]
     let cellC = cellPos[1]
 
     refs[cellR][cellC].flag()   
+}
+
+export const getProps = (refs: any[][], params: {id: string}) => {
+    let cellPos = getPos({id: params.id});
+    return refs[cellPos[0]][cellPos[1]].props
 }
