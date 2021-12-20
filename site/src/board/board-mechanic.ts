@@ -1,3 +1,5 @@
+import { TileState } from "../components/tile/Tile";
+
 let bfsQ: number[][] = []
 let visited = new Set<string>()
 
@@ -8,24 +10,13 @@ const checkValid = (index: number[], min: number, max: number) => {
     return true;
 }
 
-export const propagate = (refMap: any[][], params: {id?: string, idx?: number[]}): void => {
+export const propagate = (refMap: any[][], params: {id: string}): void => {
     // Identifies cell [r, c] tuple position in grid
-    let cellPos: number[] = [];
-    let cellR: number = 0;
-    let cellC: number = 0;
-
-    if (params.id) {
-        cellPos = params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
-        cellR = cellPos[0]
-        cellC = cellPos[1]
-    } else if (params.idx) {
-        cellR = params.idx[0]
-        cellC = params.idx[1]
-    }
+    let cellPos = params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
 
     bfsQ.push(cellPos)
 
-    while (bfsQ.length != 0) {
+    while (bfsQ.length !== 0) {
         let pos = bfsQ.pop()
         if (pos) {
             if (pos[0] < 0 || pos[0] >= refMap.length || pos[1] < 0 || pos[1] >= refMap[0].length) {
@@ -56,4 +47,20 @@ export const propagate = (refMap: any[][], params: {id?: string, idx?: number[]}
             }
         }
     }
+}
+
+export const checkState = (refs: any[][], params: {id: string}): TileState => {
+    let cellPos = params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
+    let cellR = cellPos[0]
+    let cellC = cellPos[1]
+
+    return refs[cellR][cellC].state
+}
+
+export const flagTile = (refs: any[][], params: {id: string}) => {
+    let cellPos = params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
+    let cellR = cellPos[0]
+    let cellC = cellPos[1]
+
+    refs[cellR][cellC].flag()   
 }

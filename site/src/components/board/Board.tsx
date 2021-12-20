@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from '../tile/Tile';
 import { getMineBoard, getRadarBoard, zeros } from '../../board/board-generator';
-import { propagate } from '../../board/board-mechanic';
+import { checkState, flagTile, propagate } from '../../board/board-mechanic';
 import './board.css';
 
 interface BoardProps {
@@ -42,7 +42,6 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     }
 
     async generateBoard(e: any) {
-        console.log(e.target.id)
         let radarBoard = getRadarBoard(getMineBoard(this.props.shape, this.props.mines, e.target.id), this.props.depth)
         let tileBoard: JSX.Element[][] = []
 
@@ -65,7 +64,14 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     }
 
     async click(e: any) {
+        e.preventDefault();
         if (e.button === 0) {
+            let tileState = checkState(this.tileRefs, {id: e.target.id})
+            if (tileState.flagged) {
+                // Can't click on a flag
+                return;
+            }
+
             if (!this.state.loaded) {
                 await this.generateBoard(e)
                 propagate(this.tileRefs, {id: e.target.id})
@@ -73,11 +79,14 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                 propagate(this.tileRefs, {id: e.target.id})
             }
         }
+        if (e.button === 2) {
+            flagTile(this.tileRefs, {id: e.target.id})
+        }
     }
 
     render() {
         return (
-            <div className="board" onClick={this.click}>
+            <div className="board" onMouseDown={this.click}>
                 {this.state.tiles.map((v, i) => {
                     return (
                         <div key={`row-${i}`} className="board-row">
