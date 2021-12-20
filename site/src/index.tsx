@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Board shape={[16, 30]} mines={120} depth={2} revealed={false}/>
+    <Board shape={[8, 8]} mines={10} depth={1} revealed={false}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

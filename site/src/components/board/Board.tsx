@@ -32,6 +32,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
         this.generateBoard = this.generateBoard.bind(this)
         this.click = this.click.bind(this)
         this.lostGame = this.lostGame.bind(this)
+        this.winGame = this.winGame.bind(this)
     }
 
     componentDidMount() {
@@ -77,6 +78,21 @@ export default class Board extends React.Component<BoardProps, BoardState> {
         }
     }
 
+    winGame() {
+        let squaresLeft: number = 0;
+        for (let i = 0; i < this.tileRefs.length; i++) {
+            for (let j = 0; j < this.tileRefs[0].length; j++) {
+                if (this.tileRefs[i][j].state.hidden) {
+                    squaresLeft++;
+                }
+            }
+        }
+        if (squaresLeft === this.props.mines) {
+            return true;
+        }
+        return false;
+    }
+
     async click(e: any) {
         e.preventDefault();
         if (this.state.revealed) {
@@ -92,15 +108,20 @@ export default class Board extends React.Component<BoardProps, BoardState> {
 
             if (!this.state.loaded) {
                 await this.generateBoard(e)
-                propagate(this.tileRefs, {id: e.target.id})
+                await propagate(this.tileRefs, {id: e.target.id})
             } else {
-                propagate(this.tileRefs, {id: e.target.id})
+                await propagate(this.tileRefs, {id: e.target.id})
             }
+
+            console.log('Checking game status')
             let props = getProps(this.tileRefs, {id: e.target.id})
             if (props.value === this.loss) {
                 this.setState({revealed: true}, () => {
-                    this.lostGame()
+                    this.lostGame();
+                    console.log('Game over!')
                 })
+            } else if (this.winGame()) {
+                console.log('Game won!')
             }
         }
         if (e.button === 2) {

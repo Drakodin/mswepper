@@ -14,7 +14,7 @@ const getPos = (params: {id: string}) => {
     return params.id.substring(params.id.indexOf('-') + 1).split(':').map(v => Number.parseInt(v))
 }
 
-export const propagate = (refMap: any[][], params: {id: string}): void => {
+export const propagate = async (refMap: any[][], params: {id: string}): Promise<void> => {
     // Identifies cell [r, c] tuple position in grid
     let cellPos = getPos({id: params.id})
 
