@@ -3,6 +3,7 @@ import { getTextColor } from '../../board/board-painter';
 import './tile.css';
 
 export interface TileProps {
+    loss: number
     value: number
     revealed?: boolean
     id: string
@@ -57,7 +58,7 @@ export default class Tile extends React.Component<TileProps, TileState> {
                 id={this.props.id}
                 className='tile tile-wrapper'
                 style={{
-                    backgroundColor: (this.state.hidden) ? 'blue' : (this.props.value === 9) ? 'darkred' : 'rgb(255, 245, 213)',
+                    backgroundColor: (this.state.hidden) ? 'blue' : (this.props.value === this.props.loss) ? 'darkred' : 'rgb(255, 245, 213)',
                     width: '20px',
                     height: '20px'
                 }}

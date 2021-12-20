@@ -19,6 +19,7 @@ interface BoardState {
 
 export default class Board extends React.Component<BoardProps, BoardState> {
     tileRefs: any = []
+    loss: number = 0
     constructor(props: BoardProps) {
         super(props)
         this.state = {
@@ -26,6 +27,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             loaded: false,
             revealed: (props.revealed) ? props.revealed : false
         }
+
+        this.loss = (2 * props.depth + 1) * (2 * props.depth + 1)
         this.generateBoard = this.generateBoard.bind(this)
         this.click = this.click.bind(this)
         this.lostGame = this.lostGame.bind(this)
@@ -38,7 +41,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             tileBoard.push([])
             this.tileRefs.push([])
             for (let j = 0; j < this.props.shape[1]; j++) {
-                tileBoard[i][j] = <Tile ref={el => this.tileRefs[i][j] = el} revealed={false} key={`Cell-${i}:${j}`} id={`Cell-${i}:${j}`} value={radarBoard[i][j]}/>
+                tileBoard[i][j] = <Tile loss={this.loss} ref={el => this.tileRefs[i][j] = el} revealed={false} key={`Cell-${i}:${j}`} id={`Cell-${i}:${j}`} value={radarBoard[i][j]}/>
             }
         }
         this.setState({tiles: tileBoard})
@@ -52,14 +55,14 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             for (let i = 0; i < this.props.shape[0]; i++) {
                 tileBoard.push([])
                 for (let j = 0; j < this.props.shape[1]; j++) {
-                    tileBoard[i][j] = <Tile ref={el => this.tileRefs[i][j] = el} revealed={true} key={`Cell-${i}:${j}`} id={`Cell-${i}:${j}`} value={radarBoard[i][j]}/>
+                    tileBoard[i][j] = <Tile loss={this.loss} ref={el => this.tileRefs[i][j] = el} revealed={true} key={`Cell-${i}:${j}`} id={`Cell-${i}:${j}`} value={radarBoard[i][j]}/>
                 }
             }
         } else {
             for (let i = 0; i < this.props.shape[0]; i++) {
                 tileBoard.push([])
                 for (let j = 0; j < this.props.shape[1]; j++) {
-                    tileBoard[i][j] = <Tile ref={el => this.tileRefs[i][j] = el} key={`Cell-${i}:${j}`} id={`Cell-${i}:${j}`} value={radarBoard[i][j]}/>
+                    tileBoard[i][j] = <Tile loss={this.loss} ref={el => this.tileRefs[i][j] = el} key={`Cell-${i}:${j}`} id={`Cell-${i}:${j}`} value={radarBoard[i][j]}/>
                 }
             }
         }
@@ -94,7 +97,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                 propagate(this.tileRefs, {id: e.target.id})
             }
             let props = getProps(this.tileRefs, {id: e.target.id})
-            if (props.value === 9) {
+            if (props.value === this.loss) {
                 this.setState({revealed: true}, () => {
                     this.lostGame()
                 })
