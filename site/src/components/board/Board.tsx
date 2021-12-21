@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from '../tile/Tile';
 import { getMineBoard, getRadarBoard, zeros } from '../../board/board-generator';
-import { checkState, flagTile, getProps, propagate } from '../../board/board-mechanic';
+import { checkState, flagTile, getProps, mmbPropagate, propagate } from '../../board/board-mechanic';
 import './board.css';
 
 interface BoardProps {
@@ -122,6 +122,16 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                 console.log('Game won!')
             }
         }
+
+        if (e.button === 1) {
+            let state = checkState(this.tileRefs, {id: e.target.id})
+            if (state.hidden === true) {
+                return;
+            } else {
+                await mmbPropagate(this.tileRefs, {id: e.target.id, mine: this.loss})
+            }
+        }
+
         if (e.button === 2) {
             flagTile(this.tileRefs, {id: e.target.id})
         }
