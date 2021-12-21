@@ -4,9 +4,11 @@ import Board from './components/board/Board';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
+document.addEventListener('contextmenu', (e: any) => e.preventDefault())
+
 ReactDOM.render(
   <React.StrictMode>
-    <Board shape={[8, 8]} mines={10} depth={1} revealed={false}/>
+    <Board shape={[24, 20]} mines={99} depth={1} revealed={false}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

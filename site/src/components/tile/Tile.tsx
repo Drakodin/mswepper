@@ -41,7 +41,7 @@ export default class Tile extends React.Component<TileProps, TileState> {
 
     flag() {
         let flag = document.getElementById(`${this.props.id}_flag`)
-        this.setState({flagged: true}, () => {
+        this.setState({flagged: !this.state.flagged}, () => {
             if (flag) {
                 if (this.state.flagged) {
                     flag.style.display = 'block'
@@ -62,9 +62,9 @@ export default class Tile extends React.Component<TileProps, TileState> {
                     width: '20px',
                     height: '20px'
                 }}
-                onClick={this.show}
             >
                 <div
+                    id={`${this.props.id}_flag`}
                     className='tile tile-flag'
                 >
                 </div>

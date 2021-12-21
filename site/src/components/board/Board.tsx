@@ -94,7 +94,6 @@ export default class Board extends React.Component<BoardProps, BoardState> {
     }
 
     async click(e: any) {
-        e.preventDefault();
         if (this.state.revealed) {
             return;
         }
@@ -113,7 +112,6 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                 await propagate(this.tileRefs, {id: e.target.id})
             }
 
-            console.log('Checking game status')
             let props = getProps(this.tileRefs, {id: e.target.id})
             if (props.value === this.loss) {
                 this.setState({revealed: true}, () => {
