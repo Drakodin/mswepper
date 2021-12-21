@@ -8,7 +8,7 @@ document.addEventListener('contextmenu', (e: any) => e.preventDefault())
 
 ReactDOM.render(
   <React.StrictMode>
-    <Board shape={[24, 20]} mines={99} depth={1} revealed={false}/>
+    <Board shape={[16, 30]} mines={99} depth={1} revealed={false}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

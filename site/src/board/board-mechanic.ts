@@ -16,7 +16,7 @@ let visited = new Set<string>()
  * @returns A boolean as to whether or not the index is in the array
  */
 const checkValid = (index: number[], min: number, min2: number, max: number, max2: number) => {
-    if (index[0] < min && index[0] >= max && index[1] < min2 && index[1] >= max2) {
+    if (index[0] < min || index[0] >= max || index[1] < min2 || index[1] >= max2) {
         return false;
     }
     return true;
@@ -119,8 +119,10 @@ export const mmbPropagate = async (refMap: any[][], params: {id: string, mine: n
     // Check number of flags around position.
     let flags = 0;
     surround.forEach(v => {
-        if (refMap[v[0]][v[1]].state.flagged) {
-            flags++;
+        if (checkValid(v, 0, 0, refMap.length, refMap[0].length)) {
+            if (refMap[v[0]][v[1]].state.flagged) {
+                flags++;
+            }
         }
     });
 
@@ -137,15 +139,19 @@ export const mmbPropagate = async (refMap: any[][], params: {id: string, mine: n
                 continue;
             }
 
-            if (refMap[pos[0]][pos[1]].state.value == params.mine) {
+            if (refMap[pos[0]][pos[1]].props.value === params.mine) {
                 continue;
             }
+
+            visited.add(pos.toString())
+
             refMap[pos[0]][pos[1]].show();
             if (refMap[pos[0]][pos[1]].props.value === 0) {
                 let neighbors: number[][] = getNeighbors(pos)
         
                 neighbors.forEach(v => {
                     if (!visited.has(v.toString()) && checkValid(v, 0, 0, refMap.length, refMap[0].length)) {
+                        console.log(`new point: ${v}`)
                         bfsQ.push(v)
                     }
                 })
