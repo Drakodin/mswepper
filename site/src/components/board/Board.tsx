@@ -130,6 +130,16 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             } else {
                 await mmbPropagate(this.tileRefs, {id: e.target.id, mine: this.loss})
             }
+
+            let props = getProps(this.tileRefs, {id: e.target.id})
+            if (props.value === this.loss) {
+                this.setState({revealed: true}, () => {
+                    this.lostGame();
+                    console.log('Game over!')
+                })
+            } else if (this.winGame()) {
+                console.log('Game won!')
+            }
         }
 
         if (e.button === 2) {
