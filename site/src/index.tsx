@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Board from './components/board/Board';
+import GameInterface from './components/ui/UI';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
@@ -8,7 +8,7 @@ document.addEventListener('contextmenu', (e: any) => e.preventDefault())
 
 ReactDOM.render(
   <React.StrictMode>
-    <Board shape={[16, 30]} mines={99} depth={1} revealed={false}/>
+    <GameInterface/>
   </React.StrictMode>,
   document.getElementById('root')
 );

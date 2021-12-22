@@ -139,13 +139,18 @@ export const mmbPropagate = async (refMap: any[][], params: {id: string, mine: n
                 continue;
             }
 
-            if (refMap[pos[0]][pos[1]].props.value === params.mine) {
+            if (refMap[pos[0]][pos[1]].props.value === params.mine && refMap[pos[0]][pos[1]].state.flagged === true) {
                 continue;
             }
 
             visited.add(pos.toString())
 
             refMap[pos[0]][pos[1]].show();
+
+            if (refMap[pos[0]][pos[1]].state.value === params.mine) {
+                break;
+            }
+
             if (refMap[pos[0]][pos[1]].props.value === 0) {
                 let neighbors: number[][] = getNeighbors(pos)
         
@@ -207,4 +212,8 @@ export const flagTile = (refs: any[][], params: {id: string}) => {
 export const getProps = (refs: any[][], params: {id: string}) => {
     let cellPos = getPos({id: params.id});
     return refs[cellPos[0]][cellPos[1]].props
+}
+
+export const resetBoard = () => {
+    window.location.reload()
 }
