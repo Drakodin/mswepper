@@ -156,7 +156,6 @@ export const mmbPropagate = async (refMap: any[][], params: {id: string, mine: n
         
                 neighbors.forEach(v => {
                     if (!visited.has(v.toString()) && checkValid(v, 0, 0, refMap.length, refMap[0].length)) {
-                        console.log(`new point: ${v}`)
                         bfsQ.push(v)
                     }
                 })

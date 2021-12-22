@@ -134,6 +134,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                         let tile = this.tileRefs[valPos[0]][valPos[1]]
                         if (tile.state.hidden === false && tile.props.value === this.loss) {
                             this.lostGame()
+                            console.log('Game over!')
                         }
                     })
                     if (this.winGame()) {
