@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from '../tile/Tile';
 import { getMineBoard, getRadarBoard, zeros } from '../../board/board-generator';
-import { checkState, flagTile, getProps, mmbPropagate, propagate } from '../../board/board-mechanic';
+import { checkState, flagTile, getProps, mmbPropagate, propagate, visited } from '../../board/board-mechanic';
 import './board.css';
 
 interface BoardProps {
@@ -128,17 +128,18 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             if (state.hidden === true) {
                 return;
             } else {
-                await mmbPropagate(this.tileRefs, {id: e.target.id, mine: this.loss})
-            }
-
-            let props = getProps(this.tileRefs, {id: e.target.id})
-            if (props.value === this.loss) {
-                this.setState({revealed: true}, () => {
-                    this.lostGame();
-                    console.log('Game over!')
+                await mmbPropagate(this.tileRefs, {id: e.target.id, mine: this.loss}).then(() => {
+                    visited.forEach(v => {
+                        let valPos = v.split(',').map(val => Number.parseInt(val))
+                        let tile = this.tileRefs[valPos[0]][valPos[1]]
+                        if (tile.state.hidden === false && tile.props.value === this.loss) {
+                            this.lostGame()
+                        }
+                    })
+                    if (this.winGame()) {
+                        console.log('Game won!')
+                    }
                 })
-            } else if (this.winGame()) {
-                console.log('Game won!')
             }
         }
 

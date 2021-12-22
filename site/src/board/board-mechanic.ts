@@ -1,7 +1,7 @@
 import { TileState } from "../components/tile/Tile";
 
 // Set of exposed squares
-let visited = new Set<string>()
+export let visited = new Set<string>()
 
 /**
  * Checks if the index location is valid. Valid locations fit the conditions
