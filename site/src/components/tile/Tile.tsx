@@ -58,7 +58,7 @@ export default class Tile extends React.Component<TileProps, TileState> {
                 id={this.props.id}
                 className='tile tile-wrapper'
                 style={{
-                    backgroundColor: (this.state.hidden) ? 'blue' : (this.props.value === this.props.loss) ? 'darkred' : 'rgb(255, 245, 213)',
+                    backgroundColor: (this.state.hidden) ? '#61c9af' : 'rgb(255, 245, 213)',
                     width: '20px',
                     height: '20px'
                 }}
@@ -70,13 +70,13 @@ export default class Tile extends React.Component<TileProps, TileState> {
                 </div>
                 <div
                     id={`${this.props.id}_value`}
-                    className='tile tile-value'
+                    className={(this.props.value >= 0 && this.props.value < this.props.loss) ? 'tile tile-value' : 'tile tile-mine'}
                     style={{
                         visibility: (this.state.hidden) ? 'hidden' : 'visible',
                         color: getTextColor(this.props.value),
                     }}
                 >
-                    {(this.props.value > 0) ? this.props.value : ""}
+                    {(this.props.value > 0 && this.props.value < this.props.loss) ? this.props.value : ""}
                 </div>
             </div>
         )

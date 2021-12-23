@@ -212,7 +212,3 @@ export const getProps = (refs: any[][], params: {id: string}) => {
     let cellPos = getPos({id: params.id});
     return refs[cellPos[0]][cellPos[1]].props
 }
-
-export const resetBoard = () => {
-    window.location.reload()
-}
