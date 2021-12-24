@@ -15,6 +15,7 @@ interface BoardState {
     tiles: JSX.Element[][],
     loaded: boolean
     revealed: boolean
+    start: number
 }
 
 export default class Board extends React.Component<BoardProps, BoardState> {
@@ -25,7 +26,8 @@ export default class Board extends React.Component<BoardProps, BoardState> {
         this.state = {
             tiles: [],
             loaded: false,
-            revealed: (props.revealed) ? props.revealed : false
+            revealed: (props.revealed) ? props.revealed : false,
+            start: 0
         }
 
         this.loss = (2 * props.depth + 1) * (2 * props.depth + 1)
@@ -67,7 +69,7 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                 }
             }
         }
-        this.setState({tiles: tileBoard, loaded: true}) 
+        this.setState({tiles: tileBoard, loaded: true, start: Date.now()}) 
     }
 
     lostGame() {
@@ -116,10 +118,10 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             if (props.value === this.loss) {
                 this.setState({revealed: true}, () => {
                     this.lostGame();
-                    console.log('Game over!')
+                    window.alert(`Game over! Time: ${Math.floor((Date.now() - this.state.start) / 1000)}s`)
                 })
             } else if (this.winGame()) {
-                console.log('Game won!')
+                window.alert(`Game won! Time: ${Math.floor((Date.now() - this.state.start) / 1000)}s`)
             }
         }
 
@@ -134,11 +136,11 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                         let tile = this.tileRefs[valPos[0]][valPos[1]]
                         if (tile.state.hidden === false && tile.props.value === this.loss) {
                             this.lostGame()
-                            console.log('Game over!')
+                            window.alert(`Game over! Time: ${Math.floor((Date.now() - this.state.start) / 1000)}s`)
                         }
                     })
                     if (this.winGame()) {
-                        console.log('Game won!')
+                        window.alert(`Game won! Time: ${Math.floor((Date.now() - this.state.start) / 1000)}s`)
                     }
                 })
             }
