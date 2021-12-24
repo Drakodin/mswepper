@@ -118,10 +118,10 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             if (props.value === this.loss) {
                 this.setState({revealed: true}, () => {
                     this.lostGame();
-                    window.alert(`Game over! Time: ${Math.floor((Date.now() - this.state.start) / 1000)}s`)
+                    window.alert(`Game over! Time: ${Math.floor((Date.now() - this.state.start) / 1000) - 1}s`)
                 })
             } else if (this.winGame()) {
-                window.alert(`Game won! Time: ${Math.floor((Date.now() - this.state.start) / 1000)}s`)
+                window.alert(`Game won! Time: ${Math.floor((Date.now() - this.state.start) / 1000) - 1}s`)
             }
         }
 
@@ -136,11 +136,11 @@ export default class Board extends React.Component<BoardProps, BoardState> {
                         let tile = this.tileRefs[valPos[0]][valPos[1]]
                         if (tile.state.hidden === false && tile.props.value === this.loss) {
                             this.lostGame()
-                            window.alert(`Game over! Time: ${Math.floor((Date.now() - this.state.start) / 1000)}s`)
+                            window.alert(`Game over! Time: ${Math.floor((Date.now() - this.state.start) / 1000) - 1}s`)
                         }
                     })
                     if (this.winGame()) {
-                        window.alert(`Game won! Time: ${Math.floor((Date.now() - this.state.start) / 1000)}s`)
+                        window.alert(`Game won! Time: ${Math.floor((Date.now() - this.state.start) / 1000) - 1}s`)
                     }
                 })
             }
