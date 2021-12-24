@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    animation: loadin linear 1s;
+    animation: loadin linear 0.5s;
 }
 
 .tile-wrapper:hover {
