@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Tile from '../tile/Tile';
 import { getMineBoard, getRadarBoard, zeros } from '../../board/board-generator';
 import { checkState, flagTile, getProps, mmbPropagate, propagate, visited } from '../../board/board-mechanic';

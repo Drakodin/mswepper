@@ -24,6 +24,16 @@ const GameInterface = (props: GameProps) => {
         unmountBoard()
     }
 
+    const playAgain = () => {
+        visited.clear();
+        unmountBoard();
+        let board = sessionStorage.getItem('board')
+        if (board) {
+            let options = JSON.parse(board);
+            mountBoard(options.shape, options.mines, options.depth);
+        }
+    }
+
     const unmountBoard = () => {
         let wrapper = document.getElementById('board-wrapper');
         if (wrapper) {
@@ -61,7 +71,8 @@ const GameInterface = (props: GameProps) => {
             </div>
             <div id="board-wrapper">
             </div>
-            <button style={{display: (mounted) ? 'block' : 'none'}} onClick={reset}>Reset</button>
+            <button style={{display: (mounted) ? 'block' : 'none'}} onClick={reset}>Back to Menu</button>
+            <button style={{display: (mounted) ? 'block' : 'none'}} onClick={playAgain}>Reset</button>
         </div>
     )
 }
