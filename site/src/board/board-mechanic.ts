@@ -188,7 +188,7 @@ export const checkState = (refs: any[][], params: {id: string}): TileState => {
  *               starting square
  * @returns Void. Only executes the flagging operation with early returns
  */
-export const flagTile = (refs: any[][], params: {id: string}) => {
+export const flagTile = async (refs: any[][], params: {id: string}) => {
     let cellPos = getPos({id: params.id})
     let cellR = cellPos[0]
     let cellC = cellPos[1]

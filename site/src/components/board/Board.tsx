@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Tile from '../tile/Tile';
 import { getMineBoard, getRadarBoard, zeros } from '../../board/board-generator';
 import { checkState, flagTile, getProps, mmbPropagate, propagate, visited } from '../../board/board-mechanic';
@@ -15,7 +16,8 @@ interface BoardState {
     tiles: JSX.Element[][],
     loaded: boolean
     revealed: boolean
-    start: number
+    start: number,
+    flags: number
 }
 
 export default class Board extends React.Component<BoardProps, BoardState> {
@@ -27,14 +29,16 @@ export default class Board extends React.Component<BoardProps, BoardState> {
             tiles: [],
             loaded: false,
             revealed: (props.revealed) ? props.revealed : false,
-            start: 0
+            start: 0,
+            flags: props.mines
         }
 
         this.loss = (2 * props.depth + 1) * (2 * props.depth + 1)
         this.generateBoard = this.generateBoard.bind(this)
         this.click = this.click.bind(this)
-        this.lostGame = this.lostGame.bind(this)
-        this.winGame = this.winGame.bind(this)
+        this.lostGame = this.lostGame.bind(this);
+        this.winGame = this.winGame.bind(this);
+        this.updateFlags = this.updateFlags.bind(this);
     }
 
     componentDidMount() {
@@ -95,6 +99,10 @@ export default class Board extends React.Component<BoardProps, BoardState> {
         return false;
     }
 
+    updateFlags() {
+        this.setState({flags: this.state.flags - 1})
+    }
+
     async click(e: any) {
         if (this.state.revealed) {
             return;
@@ -147,21 +155,28 @@ export default class Board extends React.Component<BoardProps, BoardState> {
         }
 
         if (e.button === 2) {
-            flagTile(this.tileRefs, {id: e.target.id})
+            await flagTile(this.tileRefs, {id: e.target.id})
+            this.updateFlags();
         }
     }
 
     render() {
         return (
-            <div className="board" onMouseDown={this.click}>
-                {this.state.tiles.map((v, i) => {
-                    return (
-                        <div key={`row-${i}`} className="board-row">
-                            {v.map(v => v)}
-                        </div>
-                    )
-                })}
+            <div>
+                <div>
+                    <p>{`Flags: ${this.state.flags}`}</p>
+                </div>
+                <div className="board" onMouseDown={this.click}>
+                    {this.state.tiles.map((v, i) => {
+                        return (
+                            <div key={`row-${i}`} className="board-row">
+                                {v.map(v => v)}
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
+            
         )
     }
 }
