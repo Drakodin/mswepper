@@ -5,3 +5,7 @@
     align-items: center;
     width: 100%;
 }
+
+#board-wrapper {
+    margin-bottom: 20px;
+}
