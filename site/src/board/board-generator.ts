@@ -20,7 +20,8 @@ export const getMineBoard = (boardShape: [number, number], mines: number, id: st
     // Calculates and places mines randomly
     let mineLocations: number[] = []
     let size = boardShape[0] * boardShape[1]
-    while (mineLocations.length !== mines) {
+    let maxMines = size - 9;
+    while (mineLocations.length !== mines && mineLocations.length <= maxMines) {
         let idx = Math.floor(Math.random() * size)
         if (idx < size && mineLocations.indexOf(idx) === -1 && safeVals.indexOf(idx) === -1) {
             mineLocations.push(idx)
