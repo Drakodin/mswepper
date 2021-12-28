@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/mswepper/static/css/main.bae730db.css",
+    "main.js": "/mswepper/static/js/main.c2633a31.js",
+    "static/js/787.276eb504.chunk.js": "/mswepper/static/js/787.276eb504.chunk.js",
+    "index.html": "/mswepper/index.html",
+    "main.bae730db.css.map": "/mswepper/static/css/main.bae730db.css.map",
+    "main.c2633a31.js.map": "/mswepper/static/js/main.c2633a31.js.map",
+    "787.276eb504.chunk.js.map": "/mswepper/static/js/787.276eb504.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bae730db.css",
+    "static/js/main.c2633a31.js"
+  ]
+}
