@@ -17,3 +17,6 @@
 - A timer is kept internally starting when the player uncovers their first square(s). The time measured is exact by using system time rather than updating an object as that can carry small lag intervals. This is later floored when revealing the time upon completion or loss.
 - Players have infinite flags. Google abides by this as well, alerting players of their flag count. The flag count is displayed when a board is generated.
 - The context menu has been disabled. Earlier testing showed that in Firefox, event defaults still activate even if they have been prevented. Thus, the menu has been disabled entirely. In order to access the console, use keyboard shortcuts.
+
+## Live Demo
+A live deployment has been made via Github Pages at drakodin.github.io/mswepper! It may or may not be maintained.
