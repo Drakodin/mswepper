@@ -19,4 +19,4 @@
 - The context menu has been disabled. Earlier testing showed that in Firefox, event defaults still activate even if they have been prevented. Thus, the menu has been disabled entirely. In order to access the console, use keyboard shortcuts.
 
 ## Live Demo
-A live deployment has been made via Github Pages at drakodin.github.io/mswepper! It may or may not be maintained.
+A live deployment has been made via Github Pages [here](drakodin.github.io/mswepper)! It may or may not be maintained.
